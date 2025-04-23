@@ -119,7 +119,8 @@
         zip.file("portfolio1.html", document.documentElement.outerHTML);
 
         // HTML pages
-        const pages = ["education1.html", "projects1.html", "certificates1.html", "experience1.html"];
+        const pages = ["portfolio/education1.html","portfolio/projects1.html","portfolio/certificates1.html","portfolio/experience1.html"];
+
         for (const page of pages) {
           const res = await fetch(page);
           if (!res.ok) throw new Error(`${page} not found`);
@@ -128,20 +129,18 @@
         }
 
         // CSS files
-        const cssFiles = ["portfolio1.css", "otherstyles.css"];
+        const cssFiles = ["portfolio/portfolio1.css","portfolio/styleportfolio1.css","portfolio/stylesub1.css"];
+
         for (const cssFile of cssFiles) {
           const res = await fetch(cssFile);
-          if (!res.ok) console.warn(`${cssFile} not found`);
+          if (!res.ok) {
+            console.warn(`${page} not found`);
+            continue;
+          }
           else zip.file(cssFile, await res.text());
         }
 
-        // JS files
-        const jsFiles = ["main.js", "scripts.js"];
-        for (const jsFile of jsFiles) {
-          const res = await fetch(jsFile);
-          if (!res.ok) console.warn(`${jsFile} not found`);
-          else zip.file(jsFile, await res.text());
-        }
+
 
         // Profile Image
         const profilePic = document.querySelector('.profile-pic');
