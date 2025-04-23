@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Resume Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .form-container {
+            width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h3>Enter Your Resume Details</h3>
+        <form id="resumeForm">
+            <h4>Upload Profile Picture here</h4>
+            <input type="file" id="profilePic" accept="image/*">
+
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="tel" id="phone" placeholder="Phone Number" required>
+            <input type="text" id="address" placeholder="Address">
+
+            <h4>Education</h4>
+            <div id="educationSection">
+                <input type="text" placeholder="Degree(Year)" class="education">
+                <textarea class="clgname" placeholder="College Name"></textarea>
+            </div>
+            <button type="button" onclick="addMoreEducation()">+ Add More Education</button>
+
+            <!-- Work Experience -->
+            <h4>Work Experience (Optional)</h4>
+            <div id="experienceSection">
+                <div class="experience">
+                    <input type="text" id="jobTitle" placeholder="Job Title">
+                    <input type="text" id="companyName" placeholder="Company Name">
+                    <input type="text" id="jobDuration" placeholder="Duration (e.g., 2020-2022)">
+                    <textarea id="jobDescription" placeholder="Job Description"></textarea>
+                </div>
+            </div>
+            <button type="button" class="add-btn" onclick="addExperience()">+ Add Experience</button>
+            <button type="button" class="skip-btn" onclick="skipExperience()">Skip Experience</button>
+
+            <h4>Technical Skills</h4>
+            <div id="skillsSection">
+                <input type="text" class="skills" placeholder="Skill">
+            </div>
+            <button type="button" onclick="addField('skillsSection', 'skills')">+ Add Skill</button>
+
+            <h4>Languages Known</h4>
+            <div id="languagesSection">
+                <input type="text" class="languages" placeholder="Language">
+            </div>
+            <button type="button" onclick="addField('languagesSection', 'languages')">+ Add Language</button>
+
+
+            <h4>Projects</h4>
+            <div id="projectSection">
+                <input type="text" class="projects" placeholder="Project Title">
+                <textarea class="projects-desc" placeholder="Project Description"></textarea>
+            </div>
+            <button type="button" onclick="addProject()">+ Add Project</button>
+
+            <h4>References</h4>
+            <input type="url" id="linkedin" placeholder="LinkedIn Profile">
+            <input type="url" id="github" placeholder="GitHub Profile">
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        function addField(sectionId, className) {
+            let section = document.getElementById(sectionId);
+            let input = document.createElement("input");
+            input.type = "text";
+            input.className = className;
+            input.placeholder = className.charAt(0).toUpperCase() + className.slice(1);
+            section.appendChild(input);
+        }
+
+        // Handle optional experience
+        function skipExperience() {
+            document.getElementById("experienceSection").style.display = "none";
+        }
+
+        // Form Submission Logic (Including Experience)
+        document.getElementById("resumeForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            localStorage.setItem("jobTitle", document.getElementById("jobTitle").value);
+            localStorage.setItem("companyName", document.getElementById("companyName").value);
+            localStorage.setItem("jobDuration", document.getElementById("jobDuration").value);
+            localStorage.setItem("jobDescription", document.getElementById("jobDescription").value);
+
+            window.location.href = "sampleresume.html"; // Redirect to the resume page
+        });
+
+
+        function addProject() {
+            let section = document.getElementById("projectSection");
+            let inputTitle = document.createElement("input");
+            let inputDesc = document.createElement("textarea");
+
+            inputTitle.type = "text";
+            inputTitle.className = "projects";
+            inputTitle.placeholder = "Project Title";
+
+            inputDesc.className = "projects-desc";
+            inputDesc.placeholder = "Project Description";
+
+            section.appendChild(inputTitle);
+            section.appendChild(inputDesc);
+        }
+        
+        function addMoreEducation() {
+            let section = document.getElementById("educationSection"); // Fix ID name
+            let div = document.createElement("div");
+
+            let inputTitle = document.createElement("input");
+            inputTitle.type = "text";
+            inputTitle.className = "education";
+            inputTitle.placeholder = "Degree (Year)";
+
+            let inputDesc = document.createElement("input"); // Use input instead of textarea
+            inputDesc.type = "text";
+            inputDesc.className = "clgname";
+            inputDesc.placeholder = "College Name";
+
+            div.appendChild(inputTitle);
+            div.appendChild(inputDesc);
+            section.appendChild(div);
+        }
+
+        document.getElementById("resumeForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Stop form from reloading the page
+
+    // Gather form data
+    let educationyear = [...document.querySelectorAll(".education")].map(e => e.value);
+    let collegename = [...document.querySelectorAll(".clgname")].map(e => e.value);
+    let educationList = educationyear.map((title, index) => ({ title, description: collegename[index] }));
+
+    let projectTitles = [...document.querySelectorAll(".projects")].map(p => p.value);
+    let projectDescriptions = [...document.querySelectorAll(".projects-desc")].map(p => p.value);
+    let projects = projectTitles.map((title, index) => ({ title, description: projectDescriptions[index] }));
+
+    let resumeData = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        address: document.getElementById("address").value,
+        education: educationList,
+        skills: [...document.querySelectorAll(".skills")].map(e => e.value),
+        languages: [...document.querySelectorAll(".languages")].map(e => e.value),
+        projects: projects,
+        linkedin: document.getElementById("linkedin").value,
+        github: document.getElementById("github").value,
+        jobTitle: document.getElementById("jobTitle").value,
+        companyName: document.getElementById("companyName").value,
+        jobDuration: document.getElementById("jobDuration").value,
+        jobDescription: document.getElementById("jobDescription").value,
+    };
+
+    // Profile pic logic
+    let file = document.getElementById("profilePic").files[0];
+    let reader = new FileReader();
+
+    reader.onload = function () {
+        resumeData.profilePic = reader.result;
+        sessionStorage.setItem("resumeData", JSON.stringify(resumeData));
+
+        sessionStorage.setItem("hideButton", "true");
+
+
+        // ✅ Redirect to the page we came from:
+        const redirectPage = sessionStorage.getItem("redirectToResume") || "sampleresume.html";
+        window.location.href = redirectPage;
+    };
+
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        alert("Please upload a profile picture.");
+    }
+});
+
+
+
+
+       
+
+    </script>
+</body>
+</html>

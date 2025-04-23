@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fill Portfolio Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin-top: 50px;
+    }
+    
+    .form-container {
+      width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 15px;
+      font-size: 16px;
+      background-color: #003366;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #002244;
+    }
+  </style>
+</head>
+<body>
+  <h1>Build Your Portfolio</h1>
+  <div class="form-container">
+  <form id="portfolioForm">
+    <label>Profile Picture:</label>
+    <input type="file" id="profilePic" accept="image/*" required />
+
+    <label>Name:</label>
+    <input type="text" id="name" required />
+
+    <label>Designation:</label>
+    <input type="text" id="designation" required />
+
+    <label for="about">About Myself:</label>
+    <textarea id="about" rows="9" placeholder="Write a short paragraph about yourself..."></textarea>
+
+
+    <label>Email:</label>
+    <input type="email" id="email" required />
+
+    <label>Phone Number:</label>
+    <input type="tel" id="phone" placeholder="e.g., +91 9876543210" required /> 
+
+    <label for="address">Address:</label>
+    <textarea id="address" rows="5" placeholder="enter your address"></textarea>
+
+
+    <hr/>
+    <h3>Education</h3>
+    <div id="educationSection">
+      <div class="education-group">
+      <label>Institute Name:</label>
+      <input type="text" class="edu-institute" placeholder="e.g., ABC University" required />
+
+      <label>Degree:</label>
+      <input type="text" class="edu-degree" placeholder="e.g., B.Tech in CSE" required />
+
+      <label>Year:</label>
+      <input type="text" class="edu-year" placeholder="e.g., 2021 - 2025" required />
+      <hr>
+    </div>
+  </div>
+  <button type="button" onclick="addEducation()">Add More Education</button>
+
+
+    
+    
+
+    <h3>Certificates</h3>
+    <div id="certificatesSection">
+      <div class="certificate-group">
+        <label>Certificate Name:</label>
+        <input type="text" class="cert-name" placeholder="e.g., Web Development Bootcamp" required />
+
+        <label>Upload Certificate File:</label>
+        <input type="file" class="cert-file" accept="image/*,.pdf" required />
+      <hr>
+      </div>
+    </div>
+
+    <button type="button" onclick="addCertificate()">Add More</button>
+    
+
+    <h3>Projects</h3>
+    <div id="projectsSection">
+      <div class="project-group">
+        <label>Project Name:</label>
+        <input type="text" class="project-name" placeholder="e.g., Weather App" required />
+
+        <label>Description:</label>
+        <textarea class="project-desc" placeholder="Short project description..." required></textarea>
+
+        <label>GitHub Link:</label>
+        <input type="url" class="project-link" placeholder="https://github.com/your/project" required />
+        <hr>
+      </div>
+    </div>
+    <button type="button" onclick="addProject()">Add More Projects</button>
+
+    
+    <h3>Experience</h3>
+    <div id="experienceSection">
+      <div class="experience-group">
+        <label>Experience:</label>
+        <input type="text" class="experience-input" placeholder="e.g., Intern at XYZ" required />
+        <hr>
+      </div>
+    </div>
+    <button type="button" onclick="addExperience()">Add More Experience</button>
+
+
+    <label>LinkedIn URL:</label>
+    <input type="url" id="linkedin" />
+
+    <label>GitHub URL:</label>
+    <input type="url" id="github" />
+
+    <button type="submit">Apply</button>
+    
+  </form>
+  </div>
+
+  <script>
+    
+  function addCertificate() {
+    const container = document.getElementById('certificatesSection');
+    const certGroup = document.createElement('div');
+    certGroup.className = 'certificate-group';
+    certGroup.innerHTML = `
+      <label>Certificate Name:</label>
+      <input type="text" class="cert-name" placeholder="e.g., Python Basics" required />
+
+      <label>Upload Certificate File:</label>
+      <input type="file" class="cert-file" accept="image/*,.pdf" required />
+      <hr>
+    `;
+    container.appendChild(certGroup);
+  }
+
+  function addEducation() {
+    const container = document.getElementById('educationSection');
+    const eduGroup = document.createElement('div');
+    eduGroup.className = 'education-group';
+    eduGroup.innerHTML = `
+      <label>Institute Name:</label>
+      <input type="text" class="edu-institute" placeholder="e.g., ABC University" required />
+
+      <label>Degree:</label>
+      <input type="text" class="edu-degree" placeholder="e.g., B.Tech in CSE" required />
+
+      <label>Year:</label>
+      <input type="text" class="edu-year" placeholder="e.g., 2021 - 2025" required />
+      <hr>
+    `;
+    container.appendChild(eduGroup);
+  }
+
+  function addProject() {
+    const container = document.getElementById('projectsSection');
+    const projectGroup = document.createElement('div');
+    projectGroup.className = 'project-group';
+    projectGroup.innerHTML = `
+      <label>Project Name:</label>
+      <input type="text" class="project-name" placeholder="e.g., Task Manager" required />
+
+      <label>Description:</label>
+      <textarea class="project-desc" placeholder="Short project description..." required></textarea>
+
+      <label>GitHub Link:</label>
+      <input type="url" class="project-link" placeholder="https://github.com/your/project" required />
+      <hr>
+    `;
+    container.appendChild(projectGroup);
+  }
+
+  function addExperience() {
+    const container = document.getElementById('experienceSection');
+    const expGroup = document.createElement('div');
+    expGroup.className = 'experience-group';
+    expGroup.innerHTML = `
+      <label>Experience:</label>
+      <input type="text" class="experience-input" placeholder="e.g., Intern at ABC Corp" required />
+      <hr>
+    `;
+    container.appendChild(expGroup);
+  }
+
+  document.getElementById('portfolioForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // Education
+    const eduInstitutes = document.querySelectorAll('.edu-institute');
+    const eduDegrees = document.querySelectorAll('.edu-degree');
+    const eduYears = document.querySelectorAll('.edu-year');
+    const education = [];
+    for (let i = 0; i < eduInstitutes.length; i++) {
+      education.push({
+        institute: eduInstitutes[i].value,
+        degree: eduDegrees[i].value,
+        year: eduYears[i].value
+      });
+    }
+
+    // Certificates
+    const certNames = document.querySelectorAll('.cert-name');
+    const certFiles = document.querySelectorAll('.cert-file');
+    const certificates = [];
+    for (let i = 0; i < certNames.length; i++) {
+      const name = certNames[i].value;
+      const file = certFiles[i].files[0];
+      if (file) {
+        const base64 = await toBase64(file);
+        certificates.push({ name, file: base64 });
+      }
+    }
+
+    // Experience
+    const expInputs = document.querySelectorAll('.experience-input');
+    const experience = Array.from(expInputs).map(input => input.value);
+
+    // Profile Picture
+    const profileFile = document.getElementById('profilePic').files[0];
+    const profilePicBase64 = profileFile ? await toBase64(profileFile) : "";
+
+    // Projects
+    const projectNames = document.querySelectorAll('.project-name');
+    const projectDescs = document.querySelectorAll('.project-desc');
+    const projectLinks = document.querySelectorAll('.project-link');
+    const projects = [];
+    for (let i = 0; i < projectNames.length; i++) {
+      projects.push({
+        name: projectNames[i].value,
+        description: projectDescs[i].value,
+        link: projectLinks[i].value
+      });
+    }
+
+    const data = {
+      profilePic: profilePicBase64,
+      name: document.getElementById('name').value,
+      designation: document.getElementById('designation').value,
+      about: document.getElementById('about').value,
+      phone: document.getElementById('phone').value,
+      address:document.getElementById('address').value,
+      education: education,
+      experience:experience,
+      projects: projects,
+      certificates: certificates,
+      email: document.getElementById('email').value,
+      linkedin: document.getElementById('linkedin').value,
+      github: document.getElementById('github').value
+    };
+    sessionStorage.setItem("showZipDownload", "true");
+
+    sessionStorage.setItem('portfolioData', JSON.stringify(data));
+    const redirectPage = sessionStorage.getItem("redirectAfterForm") || "portfolio1.html" || "portfolio2.html";
+    window.location.href = redirectPage;
+
+  });
+
+  function toBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
+  }
+
+
+  </script>
+  
+</body>
+</html>

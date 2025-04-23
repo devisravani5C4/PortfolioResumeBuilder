@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Contact Me</title>
+  <link rel="stylesheet" href="../styleportfolio1.css">
+  <link rel="stylesheet" href="../stylesub1.css">
+
+
+</head>
+<body>
+  <h1>Contact Information</h1>
+  <div id="contactInfo"></div>
+
+  <script>
+    const data = JSON.parse(sessionStorage.getItem("portfolioData")) || {};
+    const contact = document.getElementById("contactInfo");
+    
+
+    contact.innerHTML = `
+      <p><strong>Email:</strong> ${data.email || "Not provided"}</p>
+      <p><strong>Phone:</strong> ${data.phone || "Not provided"}</p>
+      <p><strong>Address:</strong> ${data.address || "Not provided"}</p>
+    `;
+  </script>
+</body>
+</html>

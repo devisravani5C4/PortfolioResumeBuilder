@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Portfolio</title>
+  <link rel="stylesheet" href="./portfolio1.css" />
+</head>
+<body>
+  <div class="main-section">
+
+     <!-- Navigation -->
+  <nav>
+    <a href="./portfolio1.html">About Me</a>
+    <a href="./others/education1.html">Education</a>
+    <a href="./others/project1.html">Projects</a>
+    <a href="./others/certificates1.html">Certifications</a>
+    <a href="./others/experience1.html">Experience</a>
+    <a href="./others/contactme1.html">Contact Me</a>
+  </nav>
+
+  
+  <!-- Header Section -->
+  <header style="padding-top: 30px;">
+    
+    <img src="profile.jpg" alt="Profile Photo" class="profile-pic">
+    <br>
+
+    <h1>Your Name</h1>
+    <p class="designation">Aspiring Web Developer</p>
+  </header>
+
+
+  <p id="aboutParagraph" style="font-size:larger;font-family:'Times New Roman', Times, serif;"</p>
+
+  <!-- Footer -->
+  <footer style="font-size: large;">
+    <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a> |
+    <a href="https://github.com/yourusername" target="_blank">GitHub</a>
+  </footer>
+
+  <!-- Create My Own Portfolio Button -->
+  </div>
+    
+    <a href="portfolioform.html">
+      <div style="position: fixed; bottom: 20px; left: 20px; z-index: 1000;">
+      <button id="createPortfolioBtn" style="
+        padding: 10px 18px;
+        font-size: 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+        cursor: pointer;
+        " onclick="startForm('portfolio1.html')">
+        Create My Own Portfolio
+      </button>
+      </div>
+    </a>
+
+    <div id="zipDownloadSection" style="display: none;">
+      <button id="zipDownloadBtn">Download Portfolio as ZIP</button>
+    </div>
+    
+  
+
+    <script>
+      function startForm(targetPage) {
+        sessionStorage.setItem("redirectAfterForm", targetPage);
+        window.location.href = "form.html";
+      }
+      window.onload = () => {
+        const stored = sessionStorage.getItem('portfolioData');
+        if (stored) {
+          const data = JSON.parse(stored);
+    
+          // Update name and designation
+          document.querySelector('header h1').textContent = data.name || "Your Name";
+          document.querySelector('.designation').textContent = data.designation || "Your Designation";
+    
+          // Update profile picture
+          if (data.profilePic) {
+            document.querySelector('.profile-pic').src = data.profilePic;
+          }
+           // Update 'About Myself' paragraph
+          if (data.about) {
+            const para = document.getElementById('aboutParagraph');
+            if (para) {
+              para.textContent = data.about;
+            }
+          }
+          //To hide the button after submitting the form
+          const createPortfolioBtn = document.getElementById('createPortfolioBtn');
+          if (createPortfolioBtn) {
+            createPortfolioBtn.style.display = 'none';
+          }
+        }
+      };
+
+    
+      
+  window.addEventListener("DOMContentLoaded", () => {
+    const zipSection = document.getElementById("zipDownloadSection");
+    const zipButton = document.getElementById("zipDownloadBtn");
+
+    if (sessionStorage.getItem("showZipDownload") === "true") {
+      zipSection.style.display = "block";
+    }
+
+    zipButton?.addEventListener("click", async () => {
+      zipSection.style.display = "none";
+      sessionStorage.removeItem("showZipDownload");
+
+      const zip = new JSZip();
+
+      try {
+        // Include the main index file
+        zip.file("portfolio1.html", document.documentElement.outerHTML);
+
+        // HTML pages
+        const pages = ["education1.html", "projects1.html", "certificates1.html", "experience1.html"];
+        for (const page of pages) {
+          const res = await fetch(page);
+          if (!res.ok) throw new Error(`${page} not found`);
+          const text = await res.text();
+          zip.file(page, text);
+        }
+
+        // CSS files
+        const cssFiles = ["portfolio1.css", "otherstyles.css"];
+        for (const cssFile of cssFiles) {
+          const res = await fetch(cssFile);
+          if (!res.ok) console.warn(`${cssFile} not found`);
+          else zip.file(cssFile, await res.text());
+        }
+
+        // JS files
+        const jsFiles = ["main.js", "scripts.js"];
+        for (const jsFile of jsFiles) {
+          const res = await fetch(jsFile);
+          if (!res.ok) console.warn(`${jsFile} not found`);
+          else zip.file(jsFile, await res.text());
+        }
+
+        // Profile Image
+        const profilePic = document.querySelector('.profile-pic');
+        if (profilePic && profilePic.src.startsWith('data:')) {
+          const res = await fetch(profilePic.src);
+          const blob = await res.blob();
+          zip.file("profile.jpg", blob);
+        }
+
+        // Generate ZIP
+        const content = await zip.generateAsync({ type: "blob" });
+        saveAs(content, "MyPortfolio.zip");
+
+      } catch (error) {
+        console.error("⚠️ Error generating ZIP:", error);
+        alert("An error occurred while creating your portfolio ZIP. Check the console for details.");
+        zipSection.style.display = "block"; // Show button again if failed
+      }
+    });
+  });
+
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
+
+
+</body>
+</html>

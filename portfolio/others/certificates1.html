@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Certifications</title>
+  <link rel="stylesheet" href="../styleportfolio1.css">
+  <link rel="stylesheet" href="../stylesub1.css">
+</head>
+<body>
+  <h1>Certifications</h1>
+  <ul id="certificationList"></ul>
+
+  <script>
+    const data = JSON.parse(sessionStorage.getItem("portfolioData")) || {};
+    const list = document.getElementById("certificationList");
+
+    if (data.certificates && data.certificates.length > 0) {
+  data.certificates.forEach(c => {
+    const li = document.createElement('li');
+
+    const title = document.createElement('p');
+    title.textContent = c.name;
+    li.appendChild(title);
+
+    // Check if the file is an image or a PDF
+    if (c.file.startsWith('data:application/pdf')) {
+      const embed = document.createElement('embed');
+      embed.src = c.file;
+      embed.type = 'application/pdf';
+      embed.width = '100%';
+      embed.height = '500px';
+      li.appendChild(embed);
+    } else if (c.file.startsWith('data:image')) {
+      const img = document.createElement('img');
+      img.src = c.file;
+      img.style.maxWidth = '100%';
+      img.style.border = '1px solid #ccc';
+      img.style.borderRadius = '5px';
+      img.style.marginBottom = '20px';
+      li.appendChild(img);
+    }
+
+    list.appendChild(li);
+  });
+}
+
+    else {
+      list.innerHTML = "<li>No certifications available.</li>";
+    }
+  </script>
+</body>
+</html>

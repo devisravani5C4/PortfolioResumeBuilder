@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Template 2</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .resume-container {
+            width: 210mm;
+            height: 297mm;
+            background: white;
+            display: flex;
+            flex-direction: row;
+        }
+        .left-panel {
+            width: 35%;
+            background-color: #2C3E50;
+            color: white;
+            padding: 20px;
+        }
+        .right-panel {
+            width: 65%;
+            padding: 20px;
+        }
+        img#profileImg {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .section-title {
+            color: #2C3E50;
+            border-bottom: 1px solid #2C3E50;
+        }
+        @media print {
+    @page{
+        size: A4;
+        margin: 10mm 8mm; 
+    }
+    body {
+        width: 210mm;
+        height: 297mm;
+        margin: 0;
+        padding:8mm;
+        font-size: 12px;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        color-adjust: exact; 
+    }
+    
+    .resume-container {
+        width: 100%;
+        height:100%;
+        padding: 10mm;
+        box-sizing: border-box;
+    }
+
+    header, section, footer {
+        page-break-inside: avoid; /* Prevent sections from breaking across pages */
+    }
+
+    #downloadBtn, #createBtn {
+        display: none !important;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="resume-container" id="resume">
+        <div class="left-panel">
+            <img id="profileImg" src="" alt="Profile Picture">
+            
+            <p><span style="color:white;">📞</span> <span id="phone"></span></p>
+            <p><span>✉️</span> <span id="email"></span></p>
+            <p><span>📍</span> <span id="address"></span></p>
+            <h3>Technical Skills</h3>
+            <ul id="skillsList"></ul>
+            <h3>Languages</h3>
+            <ul id="languagesList"></ul>
+            <h3>References</h3>
+            <p><b>LinkedIn:</b> <a id="linkedin" href="#" target="_blank"></a></p>
+            <p><b>GitHub:</b> <a id="github" href="#" target="_blank"></a></p>
+        </div>
+        <div class="right-panel">
+            <section>
+                <h2 id="name" style="font-size:xx-large;color:#2c3e50">Your Name</h2>
+                <p>A Hardworking student seeking employment. Bringing forth a positive attitude and the willingness to learn.</p>
+            </section>
+
+            <section id="experienceSectionResume" style="display: none;">
+                <h2 class="section-title">Work Experience</h2>
+                <p id="jobTitleResume"></p>
+                <p id="companyNameResume"></p>
+                <p id="jobDurationResume"></p>
+                <p id="jobDescriptionResume"></p>
+            </section>
+
+            <section>
+                <h2 class="section-title">Education</h2>
+                <div id="educationList"></div>
+            </section>
+
+            <section>
+                <h2 class="section-title">Projects</h2>
+                <div id="projectsList"></div>
+            </section>
+        </div>
+    </div>
+    <button id="createBtn" class="hideit" 
+    style="background-color: blue;color:white;
+    font-family: 'Times New Roman', Times, serif;"
+     onclick="goToForm('sampleresume2.html')">Create my own</button>
+    <button id="downloadBtn" style="display: none; background-color: green; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">Download PDF</button>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <script>
+        function goToForm(templateFile)
+        {
+            sessionStorage.setItem("redirectToResume",templateFile);
+            window.location.href="sampleform.html";
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            const data = JSON.parse(sessionStorage.getItem("resumeData"));
+
+            if (data) {
+                document.getElementById("profileImg").src = data.profilePic;
+                document.getElementById("name").textContent = data.name;
+                document.getElementById("email").textContent = data.email;
+                document.getElementById("phone").textContent = data.phone;
+                document.getElementById("address").textContent = data.address;
+                document.getElementById("skillsList").innerHTML = data.skills.map(s => `<li>${s}</li>`).join("");
+                document.getElementById("languagesList").innerHTML = data.languages.map(l => `<li>${l}</li>`).join("");
+                document.getElementById("educationList").innerHTML = data.education.map(e => `<h4>${e.title} - ${e.description}</h4>`).join("");
+                document.getElementById("projectsList").innerHTML = data.projects.map(p => `<p>${p.title} - ${p.description}</p>`).join("");
+
+                document.getElementById("linkedin").href = data.linkedin;
+                document.getElementById("linkedin").textContent = data.linkedin;
+                document.getElementById("github").href = data.github;
+                document.getElementById("github").textContent = data.github;
+
+                if (localStorage.getItem("jobTitle")) {
+                    document.getElementById("jobTitleResume").textContent = localStorage.getItem("jobTitle");
+                    document.getElementById("companyNameResume").textContent = localStorage.getItem("companyName");
+                    document.getElementById("jobDurationResume").textContent = localStorage.getItem("jobDuration");
+                    document.getElementById("jobDescriptionResume").textContent = localStorage.getItem("jobDescription");
+                    document.getElementById("experienceSectionResume").style.display = "block";
+                }
+
+                document.getElementById("downloadBtn").style.display = "block";
+                document.querySelector(".hideit").style.display = "none";
+            }
+
+            if (localStorage.getItem("hideButton") !== "true") {
+                document.querySelector(".hideit").style.display = "block";
+            }
+        });
+
+        document.getElementById("createBtn").addEventListener("click", function () {
+            window.location.href = "sampleform.html";
+        });
+        window.addEventListener("DOMContentLoaded", () => {
+    if (sessionStorage.getItem("hideButton") === "true") {
+        const btn = document.getElementById("createBtn");
+        if (btn) btn.style.display = "none";
+
+        // Optional: clear the flag if you only want it hidden once
+        // sessionStorage.removeItem("hideButton");
+    }
+});
+
+        document.getElementById("downloadBtn").addEventListener("click", function () {
+            const element = document.getElementById("resume");
+            const opt = {
+                margin: [5, 5, 5, 5],
+                filename: 'My_Resume.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { avoid: 'div' }
+            };
+            html2pdf().set(opt).from(element).save();
+        });
+    </script>
+</body>
+</html>

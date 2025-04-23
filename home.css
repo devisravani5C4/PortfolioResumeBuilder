@@ -1,0 +1,57 @@
+body {
+    font-family:'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color:antiquewhite;
+    text-align: center;
+}
+
+h1 {
+    color:black;
+    margin-bottom: 20px;
+}
+p{
+    color:black;
+}
+
+.container {
+    background-color:whitesmoke;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow:cornsilk;
+    padding: 40px;
+}
+
+.buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+button {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+.portfolio-btn {
+    background: #4CAF50;
+    color: white;
+}
+
+.resume-btn {
+    background:#4CAF50;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.8;
+}

@@ -1,0 +1,98 @@
+
+
+  
+  html{
+    margin:0;
+    padding:0;
+    height:100%;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    background: #cddbe5;
+    color: #333;
+  }
+  
+  .main-section {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #003366;
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  
+  
+  
+  
+  .profile-pic {
+    width: 250px;
+    height: 250px;
+    float:left;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 30px;
+    padding-left: 30px;
+  }
+  h1{
+    font-size:3rem;
+    text-transform: capitalize;
+    font-weight: 700;
+    margin: 10px 0;
+  }
+  
+  .designation {
+    font-size: 1.5em;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  .p{
+    font-size:10px;
+  }
+  
+  nav {
+    background-color:#b29317;
+    padding: 10px;
+    text-align: center;
+    font-size: large;
+  }
+  
+  nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  nav a:hover {
+    text-decoration: underline;
+  }
+  
+  
+  
+  footer {
+    margin-top:auto;
+    text-align: center;
+    padding: 20px;
+    background-color: #003366;
+    color: white;
+  }
+  
+  footer a {
+    color: #ffcc00;
+    text-decoration: none;
+    margin: 0 10px;
+  }
+  
+  footer a:hover {
+    text-decoration: underline;
+  }
+  

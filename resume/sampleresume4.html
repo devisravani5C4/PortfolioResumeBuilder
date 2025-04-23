@@ -1,0 +1,139 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Template</title>
+    <link rel="stylesheet" href="./sampleresume4.css">
+</head>
+<body>
+  
+    <div class="resume-container">
+        <div class="left-column">
+          <img id="profileImg" src="" alt="ProfilePic">
+          
+        </header>
+          <p><span style="color:black;">✉️</span><b>Email:</b> <span id="email"></span></p>
+          <p><span style="color:black;">📞</span> <b>Mobile no:</b> <span id="phone"></span></p>
+          <p><b>Address:</b> <span id="address"></span></p>
+
+          <section>
+            <h2>Technical Skills:</h2>
+            <ul id="skillsList"></ul>
+        </section>
+
+        <section>
+            <h2>Languages Known:</h2>
+            <ul id="languagesList"></ul>
+        </section>
+        <section>
+          <h2>References:</h2>
+            <p><b>LinkedIn:</b> <a id="linkedin" href="#" target="_blank"></a></p>
+            <p><b>GitHub:</b> <a id="github" href="#" target="_blank"></a></p>
+        </section>
+      </div>
+
+        <div class="right-column">
+            <div class="header">
+                <h1 id="header-name"></h1>
+            </div>
+
+            <p style="font-size:15px;">A Hardworking student seeking employment. Ready to utilize<br> my skills and passion for the growth and welfare of the company. <br>
+              Bringing forth a positive attitude and the willingness<br>  to learn and implement new technologies.</p>
+          
+            <section>
+              <h2>Education:</h2>
+              <div id="educationList"></div>
+            </section>
+            <section id="experienceSectionResume" style="display: none;">
+              <h2>Experience:</h2>
+              <p id="jobTitleResume"></p>
+              <p id="companyNameResume"></p>
+              <p id="jobDurationResume"></p>
+              <p id="jobDescriptionResume"></p>
+          </section>
+      
+        <section>
+            <h2>Projects:</h2>
+            <div id="projectsList">
+                <ul id="projectsListUl"></ul>
+            </div>
+        </section>
+      </div>
+    </div>
+    
+    
+    <button id="createBtn" class="hideit" 
+    style="background-color: blue;color:white;
+    font-family: 'Times New Roman', Times, serif;"
+      onclick="goToForm('sampleresume4.html')">Create my own</button>
+    <button id="downloadBtn" style="display: none; background-color: green; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">
+        Download PDF
+    </button>
+
+    <script>
+        function goToForm(templateFile)
+        {
+            sessionStorage.setItem("redirectToResume",templateFile);
+            window.location.href="sampleform.html";
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            let resumeData = JSON.parse(sessionStorage.getItem("resumeData"));
+            if (resumeData) {
+                document.getElementById("profileImg").src = resumeData.profilePic;
+                document.getElementById("header-name").textContent = resumeData.name;
+                document.getElementById("phone").textContent = resumeData.phone;
+                document.getElementById("email").textContent = resumeData.email;
+                document.getElementById("address").textContent = resumeData.address;
+                document.getElementById("skillsList").innerHTML = resumeData.skills.map(s => `<li>${s}</li>`).join("");
+                document.getElementById("languagesList").innerHTML = resumeData.languages.map(l => `<li>${l}</li>`).join("");
+                document.getElementById("projectsListUl").innerHTML = resumeData.projects.map(p => `<li>${p.title} - ${p.description}</li>`).join("");
+                document.getElementById("educationList").innerHTML = resumeData.education.map(e => `<h3>${e.title}</h3><p>${e.description}</p>`).join("");
+                document.getElementById("linkedin").href = resumeData.linkedin;
+                document.getElementById("linkedin").textContent = resumeData.linkedin;
+                document.getElementById("github").href = resumeData.github;
+                document.getElementById("github").textContent = resumeData.github;
+            }
+        });
+
+        // Load experience section
+        document.addEventListener("DOMContentLoaded", function () {
+            let jobTitle = localStorage.getItem("jobTitle");
+            let companyName = localStorage.getItem("companyName");
+            let jobDuration = localStorage.getItem("jobDuration");
+            let jobDescription = localStorage.getItem("jobDescription");
+
+            if (jobTitle && companyName && jobDuration && jobDescription) {
+                document.getElementById("jobTitleResume").textContent = jobTitle;
+                document.getElementById("companyNameResume").textContent = companyName;
+                document.getElementById("jobDurationResume").textContent = jobDuration;
+                document.getElementById("jobDescriptionResume").textContent = jobDescription;
+                document.getElementById("experienceSectionResume").style.display = "block";
+            }
+        });
+                
+        document.getElementById("createBtn").addEventListener("click", function() {
+            window.location.href = "sampleform.html"; // Redirect to the form page
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            if (sessionStorage.getItem("hideButton") === "true") {
+                document.querySelector(".hideit").style.display = "none";
+            }
+        });
+    
+        document.addEventListener("DOMContentLoaded", function () {
+            if (sessionStorage.getItem("resumeData")) {
+                document.getElementById("downloadBtn").style.display = "block"; // Show Download button
+            }
+        });
+
+        document.getElementById("downloadBtn").addEventListener("click", function () {
+            let originalZoom = document.body.style.zoom;
+            document.body.style.zoom = "80%"; // Adjust scale to fit content on one A4 page
+            window.print(); // Trigger the print dialog
+            document.body.style.zoom = originalZoom; // Restore original zoom after print
+        });
+    </script>
+</body>
+</html>
