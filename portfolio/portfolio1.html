@@ -119,7 +119,7 @@
         zip.file("portfolio1.html", document.documentElement.outerHTML);
 
         // HTML pages
-        const pages = ["portfolio/portfolio1.html","portfolio/others/education1.html","portfolio/others/projects1.html","portfolio/others/certificates1.html","portfolio/others/experience1.html","portfolio/others/contactme1.html"];
+        const pages = ["./portfolio1.html","./others/education1.html","./others/projects1.html","./others/certificates1.html","./others/experience1.html","./others/contactme1.html"];
 
         for (const page of pages) {
           const res = await fetch(page);
@@ -129,7 +129,7 @@
         }
 
         // CSS files
-        const cssFiles = ["portfolio/portfolio1.css","portfolio/styleportfolio1.css","portfolio/stylesub1.css"];
+        const cssFiles = ["./portfolio1.css","./styleportfolio1.css","./stylesub1.css"];
 
         for (const cssFile of cssFiles) {
           const res = await fetch(cssFile);
